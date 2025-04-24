@@ -1,0 +1,12 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Downloads folder (Optional, if you don’t want to track videos)
+downloads/
+
+# Temporary files
+.cache
