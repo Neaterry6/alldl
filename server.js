@@ -15,23 +15,22 @@ app.get("/api/download", async (req, res) => {
     }
 
     try {
-        // Download video with best available format
-        exec(`yt-dlp -f "bestvideo+bestaudio" --merge-output-format mp4 -o ${filePath} ${videoUrl}`, (error, stdout, stderr) => {
+        // Download video
+        exec(`yt-dlp -f best -o '${filePath}' ${videoUrl}`, (error, stdout, stderr) => {
             if (error) {
                 console.error("Download error:", stderr);
                 return res.status(500).json({ error: "Failed to download video." });
             }
 
-            // Wait 3 seconds for yt-dlp to finalize the file before sending
-            setTimeout(() => {
-                res.download(filePath, (err) => {
-                    if (err) {
-                        console.error("Error sending file:", err);
-                        res.status(500).json({ error: "Failed to send video file." });
-                    }
-                    fs.unlinkSync(filePath); // Delete file after sending
-                });
-            }, 3000);
+            // Stream video back to user
+            res.download(filePath, (err) => {
+                if (err) {
+                    console.error("Error sending file:", err);
+                    res.status(500).json({ error: "Failed to send video file." });
+                }
+                // Delete file after sending to avoid storage issues
+                fs.unlinkSync(filePath);
+            });
         });
     } catch (err) {
         console.error("Server error:", err);
@@ -40,4 +39,4 @@ app.get("/api/download", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`✅ Video Downloader API running at http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Video Downloader API running at http://localhost:${PORT}`));
