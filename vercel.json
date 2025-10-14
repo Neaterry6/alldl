@@ -1,6 +1,8 @@
 {
-  "functions": {
-    "app/index.py": {
-      "runtime": "@vercel/python@0.4.0"     }
-  }
+  "builds": [
+    {
+      "src": "app/index.py",
+      "use": "@vercel/python"
+    }
+  ]
 }
