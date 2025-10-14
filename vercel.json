@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/index.py": {
+    "app/index.py": {
       "maxDuration": 30
     }
   },
