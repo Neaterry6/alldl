@@ -1,1 +1,6 @@
-app
+{
+  "functions": {
+    "app/index.py": {
+      "runtime": "@vercel/python@0.4.0"     }
+  }
+}
