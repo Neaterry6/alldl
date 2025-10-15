@@ -1,9 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.responses import FileResponse
 import yt_dlp
 import os
-import tempfile
 from pathlib import Path
 
 app = FastAPI(title="AllDownloader")
@@ -19,12 +18,6 @@ app.add_middleware(
 
 TEMP_DIR = Path("/tmp")  # Vercel's writable temp dir
 TEMP_DIR.mkdir(exist_ok=True)
-
-@app.get("/", response_class=HTMLResponse)
-async def root():
-    # Serve static HTML from public/ (Vercel handles this automatically, but fallback)
-    with open("public/index.html", "r") as f:
-        return f.read()
 
 @app.post("/download")
 async def download_media(url: str):
